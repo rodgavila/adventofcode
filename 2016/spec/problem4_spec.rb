@@ -40,7 +40,7 @@ describe Problem4 do
     it "returns right answer for input" do
       p = Problem4.new
       p.load_input_from_file './input/4.txt'
-      expect(p.part_b).to eql(1826)
+      expect(p.part_b).to eql(501)
     end
   end
 end

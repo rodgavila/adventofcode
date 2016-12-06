@@ -61,10 +61,12 @@ class Problem4 < Problem
     self.input.each_line do |line|
       room = parse_room(line)
       if room.is_valid?
-        puts room.decrypted_name
+        if ((room.decrypted_name.include? 'north') && (room.decrypted_name.include? 'pole'))
+          return room.sector
+        end
       end
     end
-    -1
+    return nil
   end
 
   def parse_room(encrypted_name)
