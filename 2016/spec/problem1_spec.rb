@@ -1,4 +1,4 @@
-require_relative '../1.rb'
+require_relative '../solutions/1.rb'
 
 describe Problem1 do
   context "aux_functions" do
@@ -33,13 +33,17 @@ describe Problem1 do
 
   describe "part_a" do
     it "returns right answer" do
-      expect(Problem1.new.part_a).to eql(253)
+      p = Problem1.new
+      p.load_input_from_file './input/1.txt'
+      expect(p.part_a).to eql(253)
     end
   end
 
   describe "part_b" do
     it "returns right answer" do
-      expect(Problem1.new.part_b).to eql(126)
+      p = Problem1.new
+      p.load_input_from_file './input/1.txt'
+      expect(p.part_b).to eql(126)
     end
   end
 end

@@ -1,3 +1,4 @@
+require_relative 'problem.rb'
 require 'set'
 
 module Direction
@@ -36,7 +37,7 @@ class Coord
   end
 end
 
-class Problem1
+class Problem1 < Problem
   def initialize
     @coord = Coord.new
     @facing = Direction::NORTH
@@ -45,13 +46,11 @@ class Problem1
   end
 
   def part_a
-    File.open('./input/1.txt') do |f|
-      f.each_line do |line|
-        instructions = line.split(',')
-        instructions.each do |inst|
-          inst.strip!
-          apply_instruction(inst[0], Integer(inst[1..-1]))
-        end
+    self.input.each_line do |line|
+      instructions = line.split(',')
+      instructions.each do |inst|
+        inst.strip!
+        apply_instruction(inst[0], Integer(inst[1..-1]))
       end
     end
 
@@ -59,23 +58,21 @@ class Problem1
   end
 
   def part_b
-    File.open('./input/1.txt') do |f|
-      f.each_line do |line|
-        instructions = line.split(',')
-        instructions.each do |inst|
-          inst.strip!
-          apply_instruction(inst[0], Integer(inst[1..-1]))
-        end
-      end
-
-      visited = Set.new
-      @breadcrumbs.each do |bc|
-        if (visited.add? bc).nil?
-          return bc.get_distance_from_origin
-        end
+    self.input.each_line do |line|
+      instructions = line.split(',')
+      instructions.each do |inst|
+        inst.strip!
+        apply_instruction(inst[0], Integer(inst[1..-1]))
       end
     end
-    raise 'No answer'
+
+    visited = Set.new
+    @breadcrumbs.each do |bc|
+      if (visited.add? bc).nil?
+        return bc.get_distance_from_origin
+      end
+    end
+    nil
   end
 
   def apply_instruction(direction, steps)

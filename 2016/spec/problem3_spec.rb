@@ -1,4 +1,4 @@
-require_relative '../3.rb'
+require_relative '../solutions/3.rb'
 
 describe Problem3 do
   describe "part_a" do
