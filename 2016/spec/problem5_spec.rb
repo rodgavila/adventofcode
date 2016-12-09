@@ -1,4 +1,4 @@
-require_relative '../5.rb'
+require_relative '../solutions/5.rb'
 
 describe Problem5 do
   before { skip("Problem5 takes too long too run") }
