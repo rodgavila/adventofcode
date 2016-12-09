@@ -48,7 +48,7 @@ class Problem7 < Problem
     end
     return_babs
   end
-  
+
   def supportsTLS(ip)
     $abba_regex = '(\w)(?!\1)(\w)\2\1'
     ipo = parseIP(ip)
