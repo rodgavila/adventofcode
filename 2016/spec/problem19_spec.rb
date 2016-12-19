@@ -1,7 +1,7 @@
 require_relative '../solutions/19.rb'
 
 describe Problem19, :Problem19 do
-  describe "part_a", :skip do
+  describe "part_a" do
     it "returns right answer for example" do
       p = Problem19.new
       p.input = 5
