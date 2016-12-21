@@ -79,9 +79,8 @@ class Problem18 < Problem
                             ((pref_left && !current_row[j+1])) || ((current_row[j+1] && !pref_left))
                          end
         pref_left = prev_value
+        num_of_safe += current_row[j] ? 0 : 1
       end
-
-      num_of_safe += current_row.count(false)
     end
 
     num_of_safe
