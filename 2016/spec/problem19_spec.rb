@@ -1,7 +1,7 @@
 require_relative '../solutions/19.rb'
 
 describe Problem19, :Problem19 do
-  describe "part_a" do
+  describe "part_a", :skip do
     it "returns right answer for example" do
       p = Problem19.new
       p.input = 5
@@ -25,7 +25,7 @@ describe Problem19, :Problem19 do
     it "returns right answer for input" do
       p = Problem19.new
       p.input = 3001330
-      expect(p.part_b).to eql(-1)
+      expect(p.part_b).to eql(1407007)
     end
   end
 end

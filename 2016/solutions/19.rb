@@ -1,4 +1,5 @@
 require_relative 'problem.rb'
+require 'benchmark'
 
 class Elf
   attr_accessor :id, :right_elf
@@ -6,6 +7,10 @@ class Elf
   def initialize
     @id = -1
     @right_elf = -1
+  end
+
+  def to_s
+    "Elf ##{@id}"
   end
 end
 
@@ -30,25 +35,48 @@ class Problem19 < Problem
   end
 
   def part_b
-    num_of_elves = Integer(self.input)
-    circle_of_elves = Array.new(num_of_elves) { Elf.new }
+    solve_part_b_pattern(Integer(self.input))
+  end
 
-    circle_of_elves.each_with_index do |v, i|
-      v.id = i
-      # v.right_elf = (i + (num_of_elves / 2).floor) % num_of_elves
+  def solve_part_b_sim(num_of_elves)
+    elves = (1..num_of_elves).to_a
+
+    while elves.size > 1
+      target = (elves.size / 2).floor
+      elves.delete_at(target)
+      elves.rotate!(1)
     end
 
-    i = 0
-    while i != circle_of_elves[i].right_elf
-      etr = circle_of_elves[i].right_elf
-      circle_of_elves[i].presents = circle_of_elves[etr].presents
-      circle_of_elves[etr].presents = 0
+    elves[0]
+  end
 
-      circle_of_elves[i].right_elf = circle_of_elves[etr].right_elf
-      # circle_of_elves[etr] = nil
-
-      i = etr
+  def solve_part_b_pattern(num_of_elves)
+    if num_of_elves == 1
+      return 1
     end
-    i + 1
+
+    i = 1
+    p = 0
+    while i < num_of_elves
+      result = 0
+      (3**p).times do
+        result += 1
+        i+=1
+
+        if i == num_of_elves
+          return result
+        end
+      end
+
+      (3**p).times do
+        result += 2
+        i+=1
+
+        if i == num_of_elves
+          return result
+        end
+      end
+      p += 1
+    end
   end
 end
