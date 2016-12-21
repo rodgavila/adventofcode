@@ -56,16 +56,7 @@ class Problem18 < Problem
   end
 
   def solve_two_rows
-    current_row = @first_row.split('').map do |v|
-      if (v == '.')
-        false
-      elsif (v == '^')
-        true
-      else
-        raise "Unexpected symbol: #{v}"
-      end
-    end
-
+    current_row = @first_row.split('').map { |v| v=='^' }
     num_of_columns = @first_row.size
     num_of_safe = current_row.count(false)
 
@@ -73,11 +64,7 @@ class Problem18 < Problem
       pref_left = false
       (0..num_of_columns-1).each do |j|
         prev_value = current_row[j]
-        current_row[j] = if j==num_of_columns-1
-                            pref_left
-                         else
-                            ((pref_left && !current_row[j+1])) || ((current_row[j+1] && !pref_left))
-                         end
+        current_row[j] = (j==num_of_columns-1) ? pref_left : (pref_left ^ current_row[j+1])
         pref_left = prev_value
         num_of_safe += current_row[j] ? 0 : 1
       end
