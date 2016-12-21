@@ -16,7 +16,10 @@ end
 
 class Problem19 < Problem
   def part_a
-    num_of_elves = Integer(self.input)
+    solve_part_a_formula(Integer(self.input))
+  end
+
+  def solve_part_a_sim(num_of_elves)
     circle_of_elves = Array.new(num_of_elves) { Elf.new }
 
     circle_of_elves.each_with_index do |v, i|
@@ -34,8 +37,12 @@ class Problem19 < Problem
     circle_of_elves[i].id
   end
 
+  def solve_part_a_formula(num_of_elves)
+    1 + 2*(num_of_elves - 2**(Math.log(num_of_elves, 2).floor))
+  end
+
   def part_b
-    solve_part_b_pattern(Integer(self.input))
+    solve_part_b_formula(Integer(self.input))
   end
 
   def solve_part_b_sim(num_of_elves)
@@ -77,6 +84,20 @@ class Problem19 < Problem
         end
       end
       p += 1
+    end
+  end
+
+  def solve_part_b_formula(num_of_elves)
+    if num_of_elves == 1
+      return 1
+    end
+
+    p = Math.log(num_of_elves, 3).floor
+
+    if (num_of_elves < 2*(3**p))
+      num_of_elves - 3**p
+    else
+      2 * (num_of_elves - 2*(3**p))
     end
   end
 end
