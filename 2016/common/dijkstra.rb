@@ -44,7 +44,7 @@ class Dijkstra
   end
 
   def get_shortest_path_to(target)
-    if @previous[target].nil?
+    if @previous[target].nil? && target != @origin
       return nil
     else
       path = Array.new
