@@ -1,5 +1,3 @@
-import java.util.Scanner
-
 class Problem6 : Problem() {
     override fun partA(): Any {
         val banks = inputAsListOfInts()
@@ -34,15 +32,17 @@ class Problem6 : Problem() {
 
     companion object {
         fun redistribute(banks: MutableList<Int>) {
-            var blocks = banks.max()!!
-            val indexOfMax: Int = banks.indexOf(blocks)
+            if (!banks.isEmpty()) {
+                var blocks = banks.max()!!
+                val indexOfMax: Int = banks.indexOf(blocks)
 
-            banks[indexOfMax] = 0
-            var i = indexOfMax
-            while (blocks > 0) {
-                i = (i+1) % banks.size
-                banks[i]++
-                blocks--
+                banks[indexOfMax] = 0
+                var i = indexOfMax
+                while (blocks > 0) {
+                    i = (i + 1) % banks.size
+                    banks[i]++
+                    blocks--
+                }
             }
         }
     }

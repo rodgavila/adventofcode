@@ -1,8 +1,6 @@
-import java.awt.Point
 import kotlin.math.floor
 import kotlin.math.pow
 import kotlin.math.sqrt
-import kotlin.test.assertFails
 
 class Problem3 : Problem() {
 

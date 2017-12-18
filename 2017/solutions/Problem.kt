@@ -3,6 +3,7 @@ import java.util.Scanner
 
 abstract class Problem {
     lateinit var input: String
+    var input2: Any? = null
 
     abstract fun partA() : Any
 
@@ -14,11 +15,22 @@ abstract class Problem {
     }
 
     fun inputAsListOfInts() : List<Int> {
-        val scanner = Scanner(input)
+        val scanner = Scanner(input).useDelimiter("\\p{javaWhitespace}*(,|\\p{javaWhitespace})\\p{javaWhitespace}*")
         val returnList = mutableListOf<Int>()
 
         while (scanner.hasNextInt()) {
             returnList.add(scanner.nextInt())
+        }
+
+        return returnList
+    }
+
+    fun inputAsListOfStrings() : List<String> {
+        val scanner = Scanner(input).useDelimiter("\\p{javaWhitespace}*(,|\\p{javaWhitespace})\\p{javaWhitespace}*")
+        val returnList = mutableListOf<String>()
+
+        while (scanner.hasNext()) {
+            returnList.add(scanner.next())
         }
 
         return returnList

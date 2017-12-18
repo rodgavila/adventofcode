@@ -1,5 +1,3 @@
-import java.util.Scanner
-
 class Problem5 : Problem() {
     override fun partA(): Any {
         val offsets = inputAsListOfInts().toMutableList()
