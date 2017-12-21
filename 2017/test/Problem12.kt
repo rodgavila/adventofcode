@@ -14,7 +14,7 @@ class Problem12Tests {
     fun testPartA_Input() {
         val problem = Problem12()
         problem.loadInputFromFile("./input/12.txt")
-        assertEquals(720, problem.partA())
+        assertEquals(306, problem.partA())
     }
 
     @Test

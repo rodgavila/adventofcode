@@ -1,38 +1,6 @@
-import java.lang.Math.floor
-import java.util.Scanner
-
-/**
- * Reverses a part of the list in place.
- *
- * @param fromIndex first element to reverse
- * @param numElements number of elements to reverse (if numElements is greater than the size of the list, it will wrap
- * as if it was a circular list
- */
-fun <T> MutableList<T>.reverse(fromIndex: Int, numElements: Int) {
-    val sublist = mutableListOf<T>()
-
-    for (i in 0 until numElements) {
-        sublist.add(this[(fromIndex + i).rem(this.size)])
-    }
-
-    sublist.reverse()
-
-    for (i in 0 until numElements) {
-        this[(fromIndex + i).rem(this.size)] = sublist[i]
-    }
-}
-
-fun Int.toTwoCharsHexString(): String {
-    if (this !in 0..255) {
-        throw IllegalArgumentException("Number must be greater than zero an less than 255")
-    }
-
-    return if (this < 16) {
-        "0" + this.toString(16)
-    } else {
-        this.toString(16)
-    }
-}
+import common.KnotHash
+import common.toHexString
+import common.reverse
 
 class Problem10 : Problem() {
     override fun partA(): Any {
@@ -52,32 +20,15 @@ class Problem10 : Problem() {
     }
 
     override fun partB(): Any {
-        val inputLengths = mutableListOf<Int>()
-        inputLengths.addAll(input.map { it.toInt() })
-        inputLengths.addAll(listOf(17, 31, 73, 47, 23))
+        val inputByteArray = ByteArray(input.length)
+        input.forEachIndexed {index, value -> inputByteArray[index] = value.toByte()}
 
-        val listSize = input2!! as Int
+        val seed = ByteArray(5)
+        listOf(17, 31, 73, 47, 23).forEachIndexed {index, value -> seed[index] = value.toByte()}
 
-        val hash = MutableList(listSize, {it})
-        var skipSize = 0
-        var currentPosition = 0
+        val hashSize = input2!! as Int
+        val knotHash = KnotHash(inputByteArray, seed, 64, hashSize)
 
-        repeat(64) {
-            inputLengths.forEach {
-                hash.reverse(currentPosition, it)
-                currentPosition = (currentPosition + it + skipSize++).rem(listSize)
-            }
-        }
-
-        // Condense hash (device in chunks of 16 and xor each group)
-        val denseHash2 = hash.chunked(16) {
-            it.reduce { acc, e -> acc.xor(e) }
-        }
-
-        val denseHashAsString = denseHash2.fold("", { acc, e ->
-            acc + e.toTwoCharsHexString()
-        })
-
-        return denseHashAsString
+        return knotHash.computeHash().toHexString()
     }
 }

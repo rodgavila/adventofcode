@@ -20,13 +20,12 @@ class Problem2Tests {
     }
 
     @Test
-    @Ignore("Not sure why this is failing...")
     fun testPartB_Sample() {
         val problem = Problem2()
         problem.input = "5\t9\t2\t8\n" +
                 "9\t4\t7\t3\n" +
                 "3\t8\t6\t5"
-        assertEquals(18, problem.partB())
+        assertEquals(9, problem.partB())
     }
 
     @Test
