@@ -1,5 +1,6 @@
 package common
 
+import java.util.BitSet
 import kotlin.experimental.and
 
 fun Byte.toHexString(): String {
@@ -27,6 +28,22 @@ fun ByteArray.toHexString(): String {
     }
 
     return returnValue.toString()
+}
+
+fun ByteArray.toBitSetBigEndian(): BitSet {
+    val bitSet = BitSet.valueOf(this)
+
+    // ValueOf is little-endian, make it big-endian
+
+    for (i in 0 until this.size) {
+        for (j in 0..3) {
+            val tmp = bitSet[i*8 + 7 - j]
+            bitSet[i*8 + 7 - j] = bitSet[i*8 + j]
+            bitSet[i*8 + j] = tmp
+        }
+    }
+
+    return bitSet
 }
 
 /**

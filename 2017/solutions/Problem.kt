@@ -3,7 +3,7 @@ import java.util.Scanner
 
 abstract class Problem {
     lateinit var input: String
-    var input2: Any? = null
+    var extraInput: Any? = null
 
     abstract fun partA() : Any
 

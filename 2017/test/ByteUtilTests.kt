@@ -1,9 +1,11 @@
 import common.merge
 import common.reverse
+import common.toBitSetBigEndian
 import common.toHexString
 import common.toIntAsUnsigned
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 
 class ByteUtilTests {
     @Test
@@ -17,11 +19,7 @@ class ByteUtilTests {
 
     @Test
     fun byteArrayToHexString() {
-        val byteArray = ByteArray(4)
-        byteArray[0] = 0x8B.toByte()
-        byteArray[1] = 0xAD.toByte()
-        byteArray[2] = 0xF0.toByte()
-        byteArray[3] = 0x0D.toByte()
+        val byteArray = byteArrayOf(0x8B.toByte(), 0xAD.toByte(), 0xF0.toByte(), 0x0D.toByte())
 
         assertEquals("8badf00d", byteArray.toHexString())
     }
@@ -39,12 +37,7 @@ class ByteUtilTests {
         val byteArray = ByteArray(5, {it.toByte()})
         byteArray.reverse(1, 3)
 
-        val expectedArray = ByteArray(5)
-        expectedArray[0] = 0.toByte()
-        expectedArray[1] = 3.toByte()
-        expectedArray[2] = 2.toByte()
-        expectedArray[3] = 1.toByte()
-        expectedArray[4] = 4.toByte()
+        val expectedArray = byteArrayOf(0, 3, 2, 1, 4)
 
         for (i in 0 until 5) {
             assertEquals(expectedArray[i], byteArray[i])
@@ -56,17 +49,7 @@ class ByteUtilTests {
         val byteArray = ByteArray(10, {it.toByte()})
         byteArray.reverse(7, 6)
 
-        val expectedArray = ByteArray(10)
-        expectedArray[0] = 9.toByte()
-        expectedArray[1] = 8.toByte()
-        expectedArray[2] = 7.toByte()
-        expectedArray[3] = 3.toByte()
-        expectedArray[4] = 4.toByte()
-        expectedArray[5] = 5.toByte()
-        expectedArray[6] = 6.toByte()
-        expectedArray[7] = 2.toByte()
-        expectedArray[8] = 1.toByte()
-        expectedArray[9] = 0.toByte()
+        val expectedArray = byteArrayOf(9, 8, 7, 3, 4, 5, 6, 2, 1, 0)
 
         for (i in 0 until 10) {
             assertEquals(expectedArray[i], byteArray[i])
@@ -75,29 +58,11 @@ class ByteUtilTests {
 
     @Test
     fun mergeByteArrays() {
-        val byteArray1 = ByteArray(4)
-        byteArray1[0] = 0x8B.toByte()
-        byteArray1[1] = 0xAD.toByte()
-        byteArray1[2] = 0xF0.toByte()
-        byteArray1[3] = 0x0D.toByte()
+        val byteArray1 = byteArrayOf(0x8B.toByte(), 0xAD.toByte(), 0xF0.toByte(), 0x0D.toByte())
+        val byteArray2 = byteArrayOf(0x1C.toByte(), 0xAF.toByte(), 0xED.toByte(), 0xEC.toByte(), 0xAF.toByte())
 
-        val byteArray2 = ByteArray(5)
-        byteArray2[0] = 0x1C.toByte()
-        byteArray2[1] = 0xAF.toByte()
-        byteArray2[2] = 0xED.toByte()
-        byteArray2[3] = 0xEC.toByte()
-        byteArray2[4] = 0xAF.toByte()
-
-        val expectedArray = ByteArray(9)
-        expectedArray[0] = 0x8B.toByte()
-        expectedArray[1] = 0xAD.toByte()
-        expectedArray[2] = 0xF0.toByte()
-        expectedArray[3] = 0x0D.toByte()
-        expectedArray[4] = 0x1C.toByte()
-        expectedArray[5] = 0xAF.toByte()
-        expectedArray[6] = 0xED.toByte()
-        expectedArray[7] = 0xEC.toByte()
-        expectedArray[8] = 0xAF.toByte()
+        val expectedArray = byteArrayOf(0x8B.toByte(), 0xAD.toByte(), 0xF0.toByte(), 0x0D.toByte(),
+                                        0x1C.toByte(), 0xAF.toByte(), 0xED.toByte(), 0xEC.toByte(), 0xAF.toByte())
 
         val mergedArray = merge(byteArray1, byteArray2)
 
@@ -105,6 +70,40 @@ class ByteUtilTests {
 
         for (i in 0 until 9) {
             assertEquals(expectedArray[i], mergedArray[i])
+        }
+    }
+
+    @Test
+    fun toBitSetBigEndian() {
+        val byteArray = byteArrayOf(0xCA.toByte(), 0xFE.toByte())
+        val bitSet = byteArray.toBitSetBigEndian()
+
+        // C
+        assertEquals(true,  bitSet[0])
+        assertEquals(true,  bitSet[1])
+        assertEquals(false, bitSet[2])
+        assertEquals(false, bitSet[3])
+
+        // A
+        assertEquals(true,  bitSet[4])
+        assertEquals(false, bitSet[5])
+        assertEquals(true,  bitSet[6])
+        assertEquals(false, bitSet[7])
+
+        // F
+        assertEquals(true,  bitSet[8])
+        assertEquals(true,  bitSet[9])
+        assertEquals(true, bitSet[10])
+        assertEquals(true, bitSet[11])
+
+        // E
+        assertEquals(true,  bitSet[12])
+        assertEquals(true, bitSet[13])
+        assertEquals(true,  bitSet[14])
+        assertEquals(false, bitSet[15])
+
+        for (i in 16..63) {
+            assertFalse(bitSet[i])
         }
     }
 }

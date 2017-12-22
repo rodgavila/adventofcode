@@ -2,8 +2,12 @@ package common
 
 import kotlin.experimental.xor
 
-class KnotHash(private val data: ByteArray, private val seed: ByteArray = ByteArray(0),
-               private val salt: Int = 1, private val hashSize: Int = 256) {
+class KnotHash(private val data: ByteArray, private val seed: ByteArray = DEFAULT_SEED,
+               private val salt: Int = 64, private val hashSize: Int = 256) {
+
+    companion object {
+        private val DEFAULT_SEED:ByteArray = byteArrayOf(17, 31, 73, 47, 23)
+    }
 
     fun computeHash(): ByteArray {
 
