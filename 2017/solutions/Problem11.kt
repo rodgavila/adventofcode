@@ -22,7 +22,8 @@ class Problem11 : Problem() {
             when(it) {
                 "n" -> y += 1.0
                 "s" -> y -= 1.0
-                "ne" -> { x += 1
+                "ne" -> {
+                    x += 1
                     y += 0.5
                 }
                 "se"-> {
